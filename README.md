@@ -177,7 +177,7 @@
   <header class="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200">
     <nav class="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-black-500 to-blue-500"></div>
+        <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-indigo-500 to-blue-500"></div>
         <span class="font-semibold">Dove Solutions</span>
       </div>
       <ul class="hidden md:flex items-center gap-6 text-sm">
