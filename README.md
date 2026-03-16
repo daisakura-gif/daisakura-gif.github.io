@@ -1,2 +1,394 @@
-# daisakura-gif.github.io
-Personal Webpage
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dove Solutions</title>
+  <meta name="description" content="Edmonton-based IT support delivering diagnostics, network planning, and secure installations for home and business environments." />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    /* ===== Site background ===== */
+    body {
+      background:
+        linear-gradient(rgba(15,23,42,0.75), rgba(15,23,42,0.75)),
+        url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80") center/cover no-repeat fixed;
+    }
+
+    .hero {
+      background: transparent;
+    }
+/* ===== Pricing styles ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    :root{
+      --primary: #215BFF;
+      --primary-600: #1E4EDE;
+      --ink: #0f172a;
+      --muted: #475569;
+      --card: #ffffff;
+      --ring: rgba(33,91,255,.25);
+      --shadow: 0 10px 25px rgba(2,6,23,.08), 0 4px 8px rgba(2,6,23,.06);
+      --radius-xl: 20px;
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 20px 72px;
+    }
+
+    .eyebrow{
+      text-align: center;
+      color: #0f172a;
+      font-weight: 800;
+      letter-spacing: .02em;
+      margin-bottom: 14px;
+      font-size: 20px;
+    }
+
+    .pricing-grid{
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+    @media (max-width: 980px){ .pricing-grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px){ .pricing-grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background: rgba(255,255,255,0.92);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      border: 1px solid rgba(2,6,23,.06);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover{ transform: translateY(-4px); box-shadow: 0 18px 36px rgba(2,6,23,.10), 0 8px 18px rgba(2,6,23,.08); }
+
+    .plan{
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: .04em;
+      font-size: 14px;
+      color: var(--ink);
+      opacity: .9;
+      padding: 18px 22px 8px;
+    }
+    .subtle{
+      color: var(--muted);
+      font-size: 13px;
+      padding: 0 22px 8px;
+    }
+
+    .feature-bar{
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 800;
+      text-align: center;
+      padding: 10px 16px;
+      margin: 10px 22px 12px;
+      border-radius: 10px;
+    }
+
+    .features{
+      padding: 0 26px 0;
+      margin: 0;
+      list-style: none;
+      color: var(--muted);
+      flex: 1 1 auto;
+    }
+    .features li{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(2,6,23,.08);
+    }
+    .features li:last-child{ border-bottom: none; }
+
+    .dot{
+      display:inline-block;
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#94a3b8;
+      flex: 0 0 auto;
+    }
+
+    .price{
+      font-weight: 900;
+      font-size: clamp(26px, 1.8vw + 16px, 36px);
+      text-align: center;
+      padding: 16px 20px 22px;
+      margin-top: auto;
+    }
+
+    .highlight{
+      background: radial-gradient(120% 100% at 50% 0%, #215BFF 0%, #1E3AAE 55%, #162b82 100%);
+      color: #fff;
+      border: 0;
+      position: relative;
+      isolation: isolate;
+    }
+    .highlight .feature-bar{ background: rgba(255,255,255,.15); color: #fff; }
+    .highlight .features{ color: rgba(255,255,255,.92); }
+    .highlight .dot{ background: rgba(255,255,255,.7); }
+    .highlight .plan{ color: #fff; opacity: 1; }
+    .highlight .subtle{ color: rgba(255,255,255,.85); }
+
+    .bottom-band{
+      margin-top: 40px;
+      color: #fff;
+      min-height: 80px;
+      background: linear-gradient(180deg, rgba(33,91,255,.12), rgba(33,91,255,.22));
+      border-radius: 10px;
+      font-weight: 800;
+      text-align: center;
+      padding: 10px 16px;
+    }
+  
+    /* ===== Click-to-highlight pricing cards ===== */
+    .pricing-card { cursor: pointer; }
+    .pricing-card:focus-visible { outline: none; box-shadow: 0 0 0 6px var(--ring); }
+
+    /* Selected state copies the highlight look */
+    .pricing-card.is-selected{
+      background: radial-gradient(120% 100% at 50% 0%, #215BFF 0%, #1E3AAE 55%, #162b82 100%);
+      color: #fff;
+      border: 0;
+      position: relative;
+      isolation: isolate;
+    }
+    .pricing-card.is-selected .feature-bar{ background: rgba(255,255,255,.15); color: #fff; }
+    .pricing-card.is-selected .features{ color: rgba(255,255,255,.92); }
+    .pricing-card.is-selected .dot{ background: rgba(255,255,255,.7); }
+    .pricing-card.is-selected .plan{ color: #fff; opacity: 1; }
+    .pricing-card.is-selected .subtle{ color: rgba(255,255,255,.85); }
+
+  </style>
+</head>
+
+<body class="min-h-screen w-full text-gray-800">
+  <!-- Header -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-white border-b border-gray-200">
+    <nav class="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-gradient-to-br from-black-500 to-blue-500"></div>
+        <span class="font-semibold">Dove Solutions</span>
+      </div>
+      <ul class="hidden md:flex items-center gap-6 text-sm">
+        <li><a href="#about" class="hover:text-blue-600">About</a></li>
+        <li><a href="#pricing" class="hover:text-blue-600">Services & Pricing</a></li>
+        <li><a href="#contact" class="hover:text-blue-600">Contact</a></li>
+      </ul>
+      <a href="#contact" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Contact Us</a>
+    </nav>
+  </header>
+
+  <main class="pt-16">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="mx-auto max-w-6xl px-4 py-20 text-center">
+        <h1 class="text-4xl font-bold text-white">Reliable I.T. care for your Home or Business Environments.</h1>
+        <p class="mt-4 text-lg max-w-2xl mx-auto text-gray-200">
+          Edmonton‑based support delivering diagnostics, network planning, and secure installations.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          <a href="#contact" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold">Book Consultation</a>
+          <a href="#pricing" class="px-6 py-3 bg-white/10 text-white rounded-lg font-semibold border border-white/30">View Pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-16 bg-white">
+      <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">About Dove Solutions</h2>
+          <p class="mt-4 text-gray-700">
+            Friendly, practical, documented support for home and small business environments—focused on fast diagnostics,
+            stable networks, and secure setups you can trust.
+          </p>
+          <ul class="mt-6 space-y-2 text-sm text-gray-700">
+            <li>• Edmonton & area • Remote & on‑site</li>
+            <li>• Security‑first approach • Documented outcomes</li>
+            <li>• Small Home friendly • Small‑business friendly</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
+          <h3 class="font-semibold text-gray-900">Quick Highlights</h3>
+          <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700">
+            <div class="p-3 rounded-xl bg-gray-50 border">Wi‑Fi optimization</div>
+            <div class="p-3 rounded-xl bg-gray-50 border">Network hardening</div>
+            <div class="p-3 rounded-xl bg-gray-50 border">CAT Cable & install work</div>
+            <div class="p-3 rounded-xl bg-gray-50 border">PC/Apple Troubleshooting</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-16 bg-transparent">
+      <div class="wrap">
+        <p class="feature-bar">Tech Solution Services and Pricing</p>
+
+        <section class="pricing-grid" aria-label="Pricing options">
+          <article tabindex="0" role="button" aria-pressed="true" class="card pricing-card is-selected" aria-labelledby="consultation-period">
+        <h2 class="plan" id="consultation-period">Consultation Period</h2>
+        <p class="subtle" aria-hidden="true">First Hour</p>
+        <div class="feature-bar" aria-hidden="true">Features</div>
+        <ul class="features">
+          <li><span class="dot" aria-hidden="true"></span> Rapid issue diagnosis</li>
+          <li><span class="dot" aria-hidden="true"></span> Personalized tech guidance</li>
+          <li><span class="dot" aria-hidden="true"></span> Actionable recommendations provided</li>
+          <li><span class="dot" aria-hidden="true"></span> Security risk assessment</li>
+          <li><span class="dot" aria-hidden="true"></span> Performance optimization review</li>
+		      <li><span class="dot" aria-hidden="true"></span> Strategic IT planning</li>
+          <li><span class="dot" aria-hidden="true"></span> Cost-saving opportunities identified</li>
+          <li><span class="dot" aria-hidden="true"></span> Next steps outlined</li>
+        </ul>
+        <p class="price" aria-label="Price">$60.00</p>
+      </article>
+
+          <article tabindex="0" role="button" aria-pressed="false" class="card pricing-card" aria-labelledby="technical-support-investigations">
+        <h2 class="plan" id="technical-support-investigations">Technical Support/Investigations</h2>
+        <p class="subtle" aria-hidden="true">Post Consultation</p>
+        <div class="feature-bar" aria-hidden="true">Features</div>
+        <ul class="features">
+          <li><span class="dot" aria-hidden="true"></span> Root-cause problem analysis</li>
+          <li><span class="dot" aria-hidden="true"></span> Network performance troubleshooting</li>
+          <li><span class="dot" aria-hidden="true"></span> System stability restoration</li>
+          <li><span class="dot" aria-hidden="true"></span> User issue resolution</li>
+          <li><span class="dot" aria-hidden="true"></span> Incident escalation management</li>
+		  
+		  
+		  
+		  
+		  
+        </ul>
+        <p class="price" aria-label="Price">$70.00</p>
+      </article>
+
+          <article tabindex="0" role="button" aria-pressed="false" class="card pricing-card" aria-labelledby="network-solutions-planning">
+        <h2 class="plan" id="network-solutions-planning">Network Solutions/Planning</h2>
+        <p class="subtle">Network Analysis and Solutions</p>
+        <div class="feature-bar" aria-hidden="true">Features</div>
+        <ul class="features">
+          <li><span class="dot" aria-hidden="true"></span> Infrastructure design consulting</li>
+          <li><span class="dot" aria-hidden="true"></span> Network performance optimization</li>
+          <li><span class="dot" aria-hidden="true"></span> Scalable architecture planning</li>
+          <li><span class="dot" aria-hidden="true"></span> Security-focused configurations</li>
+          <li><span class="dot" aria-hidden="true"></span> Cost-efficient network upgrades</li>
+		  <li><span class="dot" aria-hidden="true"></span> Future-proof implementation guidance</li>
+        </ul>
+        <p class="price" aria-label="Price">$70.00</p>
+      </article>
+
+          <article tabindex="0" role="button" aria-pressed="false" class="card pricing-card" aria-labelledby="network-engineering-installations">
+        <h2 class="plan" id="network-engineering-installations">Network Engineering/Installation</h2>
+        <p class="subtle">Advanced Work/Physical</p>
+        <div class="feature-bar" aria-hidden="true">Features</div>
+        <ul class="features">
+          <li><span class="dot" aria-hidden="true"></span> Hardware installation services</li>
+          <li><span class="dot" aria-hidden="true"></span> System configuration setup</li>
+          <li><span class="dot" aria-hidden="true"></span> Cable management execution</li>
+          <li><span class="dot" aria-hidden="true"></span> Wireless network installation</li>
+          <li><span class="dot" aria-hidden="true"></span> Connectivity verification testing</li>
+		  
+		  
+		  
+		  
+        </ul>
+        <p class="price" aria-label="Price">$100.00</p>
+      </article>
+        </section>
+
+        <div class="bottom-band" aria-hidden="true">*Retainer priorities are available and may vary based on project scope. Retainer fees are Negotiable.</div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-16 bg-white border-t border-gray-200">
+      <div class="mx-auto max-w-6xl px-4 grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div>
+          <h2 class="text-3xl font-bold text-gray-900">Get in Touch</h2>
+          <p class="mt-4 text-gray-700">Send a message and we’ll reply as soon as possible.</p>
+          <form id="contactForm" class="mt-6 grid gap-4" action="https://formsubmit.co/vcarter@outlook.com" method="POST">            <input type="text" id="name" name="name" placeholder="Full Name" required class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="email" id="email" name="email" placeholder="Email Address" required class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="text" id="phone" name="phone" placeholder="Phone Number" required class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <textarea id="message" name="message" placeholder="Describe the issue..." rows="5" required class="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            <input type="hidden" name="_subject" value="New Dove IT Trouble Ticket" />
+            <input type="hidden" name="_bcc" value="daisakura@gmail.com" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value="Dove_IT_thank_you.html" />
+            <button id="submitBtn" type="submit" disabled class="w-fit px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed">Submit Trouble Ticket</button>
+            <p class="text-xs text-gray-500">* This form is configured for FormSubmit. Replace the thank-you URL before publishing.</p>
+          </form>
+        </div>
+
+        <div class="grid gap-6">
+          <div class="rounded-2xl border border-gray-200 p-6 bg-gray-50">
+            <h3 class="font-semibold text-gray-900">Vernon Carter(Solutions Engineer)</h3>
+            <p class="mt-2 text-sm text-gray-600">Edmonton, Alberta • Remote & On‑site</p>
+            <div class="mt-4 text-sm text-gray-700 space-y-1">
+              <p><span class="font-medium">Phone:</span> (780) 691‑6454</p>
+              <p><span class="font-medium">Email:</span> info@dovesolutions.ca</p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-gray-200 p-6 bg-gray-50">
+            <h3 class="font-semibold text-gray-900">Service Hours</h3>
+            <ul class="mt-3 text-sm text-gray-700 space-y-1">
+              <li>Mon – Fri: 6:00p – 10:00p</li>
+              <li>Saturday: 8:00a – 10:00p</li>
+              <li>Sunday: 8:00a – 10:00p</li>
+            </ul>
+            <p class="mt-3 text-xs text-gray-500">* After‑hours support available by agreement.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="text-center py-8 border-t bg-white">
+    <p class="text-sm text-gray-600">© Dove Solutions</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById("contactForm");
+    const button = document.getElementById("submitBtn");
+
+    if (form && button) {
+      form.addEventListener("input", () => {
+        const fields = form.querySelectorAll("input[required], textarea[required]");
+        const allFilled = [...fields].every(field => field.value.trim() !== "");
+        button.disabled = !allFilled;
+      });
+    }
+
+    (function () {
+      const cards = Array.from(document.querySelectorAll('.pricing-card'));
+      if (!cards.length) return;
+
+      function setSelected(card) {
+        cards.forEach(c => {
+          c.classList.remove('is-selected');
+          c.setAttribute('aria-pressed', 'false');
+        });
+        card.classList.add('is-selected');
+        card.setAttribute('aria-pressed', 'true');
+      }
+
+      cards.forEach(card => {
+        card.addEventListener('mouseover', () => setSelected(card));
+        card.addEventListener('focus', () => setSelected(card));
+      });
+    })();
+  </script>
+</body>
+</html>
